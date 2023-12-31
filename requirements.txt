@@ -1,0 +1,4 @@
+pykiwoom
+fastapi
+uvicorn
+PyQt5
