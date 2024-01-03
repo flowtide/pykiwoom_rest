@@ -5,12 +5,12 @@
 
 - Release mode 실행
 ```
-uvicorn main:app --host 0.0.0.0 --port 8000 --workers 10 --log-config log_conf.ini
+uvicorn main:app --host 0.0.0.0 --port 8000 --workers 10 --log-config env/log_conf.ini
 
 ```
 - Debug mode 실행
 ```
-uvicorn main:app --host 0.0.0.0 --port 8000 --log-config log_conf.ini --reload
+uvicorn main:app --host 0.0.0.0 --port 8000 --log-config env/log_conf.ini --reload
 ```
 
 ## 키움 OpenAPI 설치 방법

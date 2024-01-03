@@ -8,7 +8,7 @@ class BoolResponse(BaseResponse):
     result: bool = False
 
 class DataFrameResponse(BaseResponse):
-    data: dict
+    data: list[dict]
 
     class Config:
         arbitrary_types_allowed = True
