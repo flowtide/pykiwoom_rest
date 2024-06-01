@@ -1,6 +1,7 @@
 from fastapi import Depends, FastAPI, Query
 import pykiwoom
-from ohlcv.ohlcv_def import MinuteDF, MinuteTicks, DayDF
+from pykiwoom_dset.chartdata import MinuteTicks
+from pykiwoom_dset.dataframe import MinuteDF, DayDF
 from src.data_model import BoolResponse, DataFrameResponse
 import logging
 
@@ -50,7 +51,7 @@ def ohlcv_min(symbol: str, tick: MinuteTicks
     return DataFrameResponse(data=df.to_dict('records'))
 
 @app.get("/ohlcv_day/{symbol}")
-def ohlcv_min(symbol: str, yyyymmdd: str = Query(None, format="yyyymmdd", pattern="^(19|20)\d\d(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$")
+def ohlcv_day(symbol: str, yyyymmdd: str = Query(None, format="yyyymmdd", pattern="^(19|20)\d\d(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$")
               , stat: KiwoomState = Depends(KiwoomState.get_state)) -> DataFrameResponse:
     logger.debug(f'[/ohlcv_day/{symbol}] yyyymmdd={yyyymmdd}')
     tr_cmd = {
@@ -71,3 +72,9 @@ def ohlcv_min(symbol: str, yyyymmdd: str = Query(None, format="yyyymmdd", patter
     print(f'df={df}')
     df = DayDF.preprocess_data(df)
     return DataFrameResponse(data=df.to_dict('records'))
+
+if __name__ == "__main__":
+    import uvicorn
+    PORT = 8000
+    logger.info(f'listen={PORT} ...')
+    uvicorn.run(app, host="0.0.0.0", port=PORT)
